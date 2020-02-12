@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -29,7 +31,8 @@ public class MainXMLController implements Initializable {
     private Button onlineBtn;
     @FXML
     private Button twoPlayerBtn;
-
+    @FXML
+    private ImageView gif;
     @FXML
     private Pane AnchorPane;
     @FXML
@@ -41,7 +44,7 @@ public class MainXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+         
     }
 
     /**

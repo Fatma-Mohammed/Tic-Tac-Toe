@@ -16,7 +16,7 @@
     <jar href="lib\mysql-connector.jar" size="540852" download="eager" />
     <jar href="lib\slf4j-api-1.5.8.jar" size="31680" download="eager" />
     <jar href="lib\slf4j-simple-1.5.8.jar" size="14190" download="eager" />
-    <jar href="serverGame.jar" size="358822" download="eager" />
+    <jar href="serverGame.jar" size="358846" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="serverGame" >
     <param name="requiredFXVersion" value="8.0+"/>

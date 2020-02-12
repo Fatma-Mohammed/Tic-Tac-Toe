@@ -25,11 +25,14 @@ public class Game extends Application {
     public void start(Stage stage) throws Exception {
          primaryStage=stage;
         Parent root = FXMLLoader.load(getClass().getResource("MainXML.fxml"));
+        
           applicationIcon = new Image(new File("src//game//img//icon.png").toURI().toString());
         stage.getIcons().add(applicationIcon);
         
         Scene scene = new Scene(root);
-        stage.setResizable(true);
+        scene.getStylesheets().addAll(this.getClass().getResource("list.css").toExternalForm());
+        stage.setResizable(false);
+        stage.sizeToScene();
         stage.setScene(scene);
         stage.show();
     }

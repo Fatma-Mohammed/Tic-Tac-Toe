@@ -10,9 +10,9 @@
 
 <AnchorPane fx:id="roomPane" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.OnlineRoomFXMLController">
    <children>
-      <ImageView fitHeight="728.0" fitWidth="743.0" layoutY="-13.0" pickOnBounds="true">
+      <ImageView id="pg" fitHeight="412.0" fitWidth="607.0">
          <image>
-            <Image url="@img/background.jpeg" />
+            <Image url="@img/bg.jpg" />
          </image>
       </ImageView>
       <ListView fx:id="playersListView" layoutX="-1.0" layoutY="1.0" onMouseClicked="#selectItem" prefHeight="651.0" prefWidth="284.0" stylesheets="@list.css" />

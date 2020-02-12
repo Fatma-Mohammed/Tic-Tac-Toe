@@ -16,7 +16,7 @@
       <MediaView fx:id="mediaView" fitHeight="650.0" fitWidth="650.0" preserveRatio="false" />
         <ImageView fitHeight="745.0" fitWidth="720.0" pickOnBounds="true">
             <image>
-            <Image url="@img/background.jpeg" />
+            <Image url="@img/bg.jpg" />
             </image>
         </ImageView>
       <ImageView fitHeight="83.0" fitWidth="502.0" layoutX="88.0" layoutY="10.0" pickOnBounds="true">

@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="728.0" fitWidth="714.0" pickOnBounds="true">
          <image>
-            <Image url="@img/background.jpeg" />
+            <Image url="@img/bg.jpg" />
          </image>
       </ImageView>
       <ListView fx:id="replays" onMouseClicked="#openVideo" prefHeight="567.0" prefWidth="650.0" stylesheets="@list.css" />
