@@ -14,6 +14,10 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -47,7 +51,7 @@ public class OnePlayerFXMLController implements Initializable {
 
     private Boolean place1 = true, place2 = true, place3 = true, place4 = true, place5 = true, place6 = true,
             place7 = true, place8 = true, place9 = true, stopPress = true;
-    private ArrayList<Integer> firstPlayerTockens, secondPlayerTockens;
+    private ArrayList<Integer> firstPlayerTockens, secondPlayerTockens,gameTockens;
     // Every possibilities of winning
     private ArrayList<Integer> firstWinPossibility, secondWinPossibility,
             thirdWinPossibility, forthWinPossibility, fifthWinPossibility,
@@ -104,6 +108,7 @@ public class OnePlayerFXMLController implements Initializable {
     private Button recordBtn;
     @FXML
     private Button stopBtn1;
+    private static int  gameOrder = 0;
 
     /**
      * Initializes the controller class.
@@ -112,10 +117,13 @@ public class OnePlayerFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         firstPlayerName.setText("Player1");
-        secondPlayerName.setText("Player2");
+        secondPlayerName.setText("Computer");
+        gameOrder++;
+        addInDB();
 
         firstPlayerTockens = new ArrayList<Integer>();
         secondPlayerTockens = new ArrayList<Integer>();
+        gameTockens = new ArrayList<Integer>();
         // Defines every possibilities of winning
         firstWinPossibility = new ArrayList<Integer>();
         secondWinPossibility = new ArrayList<Integer>();
@@ -157,7 +165,60 @@ public class OnePlayerFXMLController implements Initializable {
 //        failMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//fail.mp3").toURI().toString()));
 //        failMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     }
+      private boolean addGames(int num)
+    {
+        try
+        {
+            String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into games (num,gameorder) values (?,?)");
+            stmt.setInt(1, num);
+            stmt.setInt(2,gameOrder);
+            
+            
+            int rs = stmt.executeUpdate();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                return false;
+        }
+        return true;
+    }
+      private void addInDB()
+    {
+        try
+        {
+             String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into names (gameorder,fplayer,splayer) values (?,?,?)");
+            stmt.setInt(1,gameOrder);
+            stmt.setString(2,firstPlayerName.getText());
+            stmt.setString(3,secondPlayerName.getText());
+            
+            
+            
+            int rs = stmt.executeUpdate();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                
+        }
+      
+    }
 
+   
     /**
      * When click on first cell
      *
@@ -172,6 +233,8 @@ public class OnePlayerFXMLController implements Initializable {
             loc = 1;
             btn1.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
         }
     }
@@ -190,6 +253,8 @@ public class OnePlayerFXMLController implements Initializable {
             place2 = false;
             btn2.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
         }
     }
@@ -208,6 +273,8 @@ public class OnePlayerFXMLController implements Initializable {
             place3 = false;
             btn3.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
         }
     }
@@ -226,6 +293,8 @@ public class OnePlayerFXMLController implements Initializable {
             place4 = false;
             btn4.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
         }
     }
@@ -244,6 +313,8 @@ public class OnePlayerFXMLController implements Initializable {
             place5 = false;
             btn5.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
 
         }
@@ -263,6 +334,8 @@ public class OnePlayerFXMLController implements Initializable {
 
             btn6.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
         }
     }
@@ -281,6 +354,8 @@ public class OnePlayerFXMLController implements Initializable {
 
             btn7.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
         }
     }
@@ -299,6 +374,8 @@ public class OnePlayerFXMLController implements Initializable {
 
             btn8.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
         }
     }
@@ -317,6 +394,8 @@ public class OnePlayerFXMLController implements Initializable {
 
             btn9.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            addGames(loc);
             computerTurn();
         }
     }
@@ -453,6 +532,7 @@ public class OnePlayerFXMLController implements Initializable {
                 place1 = false;
                 movement++;
                 btn1.setText(draw0());
+                
             } else if (loc == 2) {
                 place2 = false;
                 movement++;
@@ -494,6 +574,7 @@ public class OnePlayerFXMLController implements Initializable {
 
                 btn9.setText(draw0());
             }
+            addGames(loc);
             secondPlayerTockens.add(loc);
 
             if (movement >= 5) {
