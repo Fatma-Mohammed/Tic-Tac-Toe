@@ -32,7 +32,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
-/*FXML Controller class*/
+/**
+ * FXML Controller class
+ *
+ * @author yasmine
+ */
 public class TwoPlayerFXMLController implements Initializable {
 
     private Boolean stopPress=true;
@@ -81,17 +85,14 @@ public class TwoPlayerFXMLController implements Initializable {
     private Button stopBtn1;
     
     Button [] btns;
+//    TwoOffline twooffline;
     
     Server2 server;
 
     
-        
-    /***********************Extending Server class*****************************/
-            /*to overide some functions used to display actions in gui*/
     
     class Server2 extends Server
     {
-                /****************Display Move********************/
         void useLogicX(int i)
         {
             btns[i].setText("X");
@@ -102,14 +103,12 @@ public class TwoPlayerFXMLController implements Initializable {
             
         }
         
-                /************Display the winning player*************/
         void displayWinner(char w)
         {
             if(w=='x')
             {
                 player1Score++;
                 JOptionPane.showMessageDialog(null, "Player1 " + " wins");
-                video();
             }
             if(w=='o')
             {
@@ -136,17 +135,13 @@ public class TwoPlayerFXMLController implements Initializable {
         {
             restart(22);
         }
-        void mainPage()
-        {
-            JOptionPane.showMessageDialog(null, "Client closed");
-            gotoMain();
-        }
     }
-    
-    /*******************Initializing the controller class**********************/
+    /**
+     * Initializes the controller class.
+     */
     @Override
-    public void initialize(URL url, ResourceBundle rb) 
-    {
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
         firstPlayerName.setText("You");
         secondPlayerName.setText("Friend");
         btns = new Button[9];
@@ -168,7 +163,7 @@ public class TwoPlayerFXMLController implements Initializable {
         resetBtn.setDisable(true);
     }
 
-    /************************click on first cell*******************************/
+    //When click on first cell
     @FXML
     private void cell00Click(ActionEvent event) {
         System.out.println("block 0");
@@ -176,7 +171,7 @@ public class TwoPlayerFXMLController implements Initializable {
         
     }
 
-    /************************click on second cell******************************/
+    //When click on second cell
     @FXML
     private void cell01Click(ActionEvent event) {
         System.out.println("block 1");
@@ -184,7 +179,7 @@ public class TwoPlayerFXMLController implements Initializable {
         
     }
 
-    /************************click on third cell*******************************/
+    //When click on third cell
     @FXML
     private void cell03Click(ActionEvent event) {
         System.out.println("block 2");
@@ -192,7 +187,7 @@ public class TwoPlayerFXMLController implements Initializable {
         
     }
 
-    /************************click on fourth cell******************************/
+    //When click on forth cell
     @FXML
     private void cell10Click(ActionEvent event) {
         System.out.println("block 3");
@@ -200,7 +195,7 @@ public class TwoPlayerFXMLController implements Initializable {
         
     }
 
-    /************************click on fifth cell*******************************/
+    //When click on fifth cell
     @FXML
     private void cell11Click(ActionEvent event) {
         System.out.println("block 4");
@@ -208,7 +203,7 @@ public class TwoPlayerFXMLController implements Initializable {
 
     }
 
-    /************************click on sixth cell*******************************/
+    //When click on sixth cell
     @FXML
     private void cell12Click(ActionEvent event) {
         System.out.println("block 5");
@@ -216,7 +211,7 @@ public class TwoPlayerFXMLController implements Initializable {
 
     }
 
-    /************************click on seventh cell*****************************/
+    //When click on seventh cell
     @FXML
     private void cell20Click(ActionEvent event) {
         System.out.println("block 6");
@@ -224,7 +219,11 @@ public class TwoPlayerFXMLController implements Initializable {
 
     }
 
-    /************************click on eighth cell******************************/
+    /**
+     * When click on eighth cell
+     *
+     * @param event
+     */
     @FXML
     private void cell21Click(ActionEvent event) {
         System.out.println("block 7");
@@ -232,7 +231,7 @@ public class TwoPlayerFXMLController implements Initializable {
         
     }
 
-    /************************click on ninth cell*******************************/
+    //When click on ninth cell
     @FXML
     private void cell22Click(ActionEvent event) {
         System.out.println("block 8");
@@ -240,15 +239,15 @@ public class TwoPlayerFXMLController implements Initializable {
 
     }
 
-    /*************************back to main page********************************/
+    /**
+     * to back to main page
+     *
+     * @param event
+     */
     @FXML
-    private void onBack(ActionEvent event) 
-    {
-        gotoMain();
-    }
-    
-    void gotoMain()
-    {
+    private void onBack(ActionEvent event) {
+//        gameMediaPlayer.stop();
+//        failMediaPlayer.stop();
         try {
             server.close();
             Pane main = FXMLLoader.load(getClass().getResource("MainXML.fxml"));
@@ -259,14 +258,16 @@ public class TwoPlayerFXMLController implements Initializable {
         }
     }
 
-    /*******************************start new game*****************************/
+    /**
+     * to start new game
+     *
+     * @param event
+     */
     @FXML
     private void onReset(ActionEvent event) {
         restart(1);
     }
-
-    /*******************************stop recording*****************************/
-    @FXML
+        @FXML
     private void recordClick(ActionEvent event) throws IOException {
 
         stopPress = false;
@@ -283,7 +284,11 @@ public class TwoPlayerFXMLController implements Initializable {
         videoCapture.setEncodingParameters(encodingParameters);
         videoCapture.start();
 }
-    /**************************restart the game method*************************/
+    /**
+     * to stop recording 
+     * @param event
+     *
+     */
     @FXML
     private void stopClick(ActionEvent event) {
         if(!stopPress)
@@ -297,7 +302,8 @@ public class TwoPlayerFXMLController implements Initializable {
     }
 
 
-    /**************************restart the game method*************************/
+
+    /*to restart the game*/
     public void restart(int num) 
     {
         for(int i=0 ; i<9 ; i++)
@@ -334,20 +340,6 @@ public class TwoPlayerFXMLController implements Initializable {
         stage.setTitle("You won!");
         stage.show();
         mp.play();
-    }
-    
-    /**************************Display winning video****************************/
-    private void video()
-    {
-        try
-        {
-            Pane main = FXMLLoader.load(getClass().getResource("Video.fxml"));
-            towPlayerPane.getChildren().setAll(main);
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
     }
 
 }

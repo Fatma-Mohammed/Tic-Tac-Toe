@@ -5,10 +5,10 @@
  */
 package game;
 
-import com.teamdev.jxcapture.Codec;
-import com.teamdev.jxcapture.EncodingParameters;
-import com.teamdev.jxcapture.VideoCapture;
-import com.teamdev.jxcapture.video.Desktop;
+//import com.teamdev.jxcapture.Codec;
+//import com.teamdev.jxcapture.EncodingParameters;
+//import com.teamdev.jxcapture.VideoCapture;
+//import com.teamdev.jxcapture.video.Desktop;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class TwoPlayerFXMLController implements Initializable {
 
     private Boolean stopPress=true;
     private int player1Score, player2Score, tieScore;
-    private VideoCapture videoCapture;
+//    private VideoCapture videoCapture;
 
     @FXML
     private AnchorPane towPlayerPane;
@@ -271,18 +271,18 @@ System.out.println("Deleted");}
     }
 
     /*******************************stop recording*****************************/
-    @FXML
-    private void stopClick(ActionEvent event) 
-    {
-        if(!stopPress)
-        {
-            videoCapture.stop();
-            stopPress = true;
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Please start recording");
-        }
-    }
+//    @FXML
+//    private void stopClick(ActionEvent event) 
+//    {
+//        if(!stopPress)
+//        {
+//            videoCapture.stop();
+//            stopPress = true;
+//        }
+//        else{
+//            JOptionPane.showMessageDialog(null, "Please start recording");
+//        }
+//    }
     
     /**************************restart the game method*************************/
     public void restart(int num) 
@@ -303,23 +303,23 @@ System.out.println("Deleted");}
     }
     
     
-     @FXML
-    private void recordClick(ActionEvent event) throws IOException 
-    {
-        stopPress = false;
-        videoCapture = VideoCapture.create();
-        videoCapture.setVideoSource(new Desktop());
-        java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
-        System.out.println(videoCodecs);
-        Codec videoCodec = videoCodecs.get(0);
-        EncodingParameters encodingParameters = new EncodingParameters(new File("Replays//Replay"+firstPlayerName.getText().trim()+"VS"+secondPlayerName.getText().trim()+System.currentTimeMillis()+".mp4"));
-        encodingParameters.setSize(new Dimension(1000, 600));
-        encodingParameters.setBitrate(800000);
-        encodingParameters.setFramerate(10);
-        encodingParameters.setCodec(videoCodec);
-        videoCapture.setEncodingParameters(encodingParameters);
-        videoCapture.start();
-    }
+//     @FXML
+//    private void recordClick(ActionEvent event) throws IOException 
+//    {
+//        stopPress = false;
+//        videoCapture = VideoCapture.create();
+//        videoCapture.setVideoSource(new Desktop());
+//        java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
+//        System.out.println(videoCodecs);
+//        Codec videoCodec = videoCodecs.get(0);
+//        EncodingParameters encodingParameters = new EncodingParameters(new File("Replays//Replay"+firstPlayerName.getText().trim()+"VS"+secondPlayerName.getText().trim()+System.currentTimeMillis()+".mp4"));
+//        encodingParameters.setSize(new Dimension(1000, 600));
+//        encodingParameters.setBitrate(800000);
+//        encodingParameters.setFramerate(10);
+//        encodingParameters.setCodec(videoCodec);
+//        videoCapture.setEncodingParameters(encodingParameters);
+//        videoCapture.start();
+//    }
     
         
     /**************************Display winning video****************************/
