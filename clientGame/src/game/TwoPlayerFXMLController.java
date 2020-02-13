@@ -28,11 +28,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javax.swing.JOptionPane;
 
-/**
- * FXML Controller class
- *
- * @author yasmine
- */
+/*FXML Controller class*/
 public class TwoPlayerFXMLController implements Initializable {
 
     private Boolean stopPress=true;
@@ -111,6 +107,7 @@ public class TwoPlayerFXMLController implements Initializable {
             {
                 player2Score++;
                 JOptionPane.showMessageDialog(null, "Player2 " + " wins");
+                video();
             }
             if(w=='t')
             {
@@ -130,6 +127,12 @@ public class TwoPlayerFXMLController implements Initializable {
         void startAgain()
         {
             restart(22);
+        }
+        
+        void mainPage()
+        {
+            JOptionPane.showMessageDialog(null, "Server closed");
+            gotoMain();
         }
         
     }
@@ -236,15 +239,19 @@ public class TwoPlayerFXMLController implements Initializable {
 
     /*************************back to main page********************************/
     @FXML
-    private void onBack(ActionEvent event) {
-        try 
-        {
-            client.close();                                                     //close the connection
+    private void onBack(ActionEvent event) 
+    {
+        gotoMain();
+    }
+    
+    void gotoMain()
+    {
+        try {
+            client.close();
             Pane main = FXMLLoader.load(getClass().getResource("MainXML.fxml"));
             towPlayerPane.getChildren().setAll(main);
-        } 
-        catch (IOException ex) 
-        {
+
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -305,6 +312,21 @@ public class TwoPlayerFXMLController implements Initializable {
         encodingParameters.setCodec(videoCodec);
         videoCapture.setEncodingParameters(encodingParameters);
         videoCapture.start();
+    }
+    
+        
+    /**************************Display winning video****************************/
+    private void video()
+    {
+        try
+        {
+            Pane main = FXMLLoader.load(getClass().getResource("Video.fxml"));
+            towPlayerPane.getChildren().setAll(main);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }
