@@ -24,7 +24,7 @@
     -fx-pref-width: 180.0;
 }
 
-#btn:hover {
+#btn:hover,#btn2:hover {
    -fx-background-color:#00b7ff;
     -fx-border-style: dotted;
     -fx-border-color: #fff;
@@ -35,7 +35,19 @@
     -fx-pref-width:250.0;
     -fx-translate-x: -30;
 }
-
+#btn2{
+        -fx-background-color: #ff00b3;
+/*    -fx-border-style: solid;
+    -fx-border-size:5;
+    -fx-border-color:#bd158d;*/
+    -fx-border-radius: 14;
+    -fx-text-fill: #fff;
+    -fx-font-family: "Bauhaus 93";
+    -fx-font-size: 22;
+    -fx-background-radius: 15;
+    -fx-pref-height: 65.0;
+    -fx-pref-width: 180.0;
+}
 .list-cell:filled:selected:focused,
 .list-cell:filled:selected {
     -fx-background-color: #e5e5e5;
