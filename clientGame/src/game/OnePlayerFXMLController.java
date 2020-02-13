@@ -768,7 +768,9 @@ public class OnePlayerFXMLController implements Initializable {
     public void restart() {
 //        failMediaPlayer.stop();
 //        gameMediaPlayer.play();
-
+          gameOrder++;
+      addInDB();
+    
         btn1.setText("");
         btn2.setText("");
         btn3.setText("");

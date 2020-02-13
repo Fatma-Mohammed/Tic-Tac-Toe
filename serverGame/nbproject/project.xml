@@ -13,10 +13,10 @@
             </extension>
         </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>FatmaServer</name>
+            <name>Server</name>
             <source-roots>
                 <root id="src.dir"/>
-                <root id="FatmaServer2.dir"/>
+                <root id="Server2.dir"/>
             </source-roots>
             <test-roots/>
         </data>

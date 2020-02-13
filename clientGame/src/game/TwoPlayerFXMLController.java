@@ -81,7 +81,7 @@ public class TwoPlayerFXMLController implements Initializable {
     
     TwoOffline twooffline;
     Client2 client;
-
+    
     
     /***********************Extending Client class*****************************/
             /*to overide some functions used to display actions in gui*/
@@ -125,6 +125,11 @@ public class TwoPlayerFXMLController implements Initializable {
             System.out.println("Player1  Player2  tie");                        //Displaying Scores of Each player
             System.out.println(player1Score+"       "+player2Score+"        "+tieScore);
             resetBtn.setDisable(false);
+//            client.getOrder(1);
+            //the index of the played game 1 ,5 ,8 , 6 
+           
+            
+            
         }
         
         void startAgain()
