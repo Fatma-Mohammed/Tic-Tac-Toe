@@ -99,7 +99,7 @@ public class MainXMLController implements Initializable {
     @FXML
     private void goToList(ActionEvent event) {
          try {
-            Pane main = FXMLLoader.load(getClass().getResource("Replays.fxml"));
+            Pane main = FXMLLoader.load(getClass().getResource("List.fxml"));
             AnchorPane.getChildren().setAll(main);
         } catch (IOException ex) {
             ex.printStackTrace();
