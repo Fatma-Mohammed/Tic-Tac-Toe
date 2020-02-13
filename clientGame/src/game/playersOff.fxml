@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import java.net.*?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -14,10 +19,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="onePlayerPane" prefHeight="600.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.OnePlayerFXMLController">
+<AnchorPane id="AnchorPane" fx:id="towPlayerPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.playersOffController">
     <stylesheets>
         <URL value="@list.css"/>
     </stylesheets>
+    
     <children>
       <ImageView id="#bg" fitHeight="600.0" fitWidth="600.0" pickOnBounds="true">
             <image>
@@ -91,10 +97,7 @@
                <padding>
                   <Insets bottom="10.0" />
                </padding>
-                  
-                        
-                  
-                    </GridPane>
+             </GridPane>
               
       
       

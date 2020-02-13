@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="650.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.OfOnChoiceController">
+<AnchorPane id="AnchorPane" fx:id="onOfPane" prefHeight="650.0" prefWidth="650.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.OfOnChoiceController">
     <stylesheets>
         <URL value="@list.css" />
     </stylesheets>

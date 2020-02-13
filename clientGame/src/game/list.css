@@ -24,7 +24,7 @@
     -fx-pref-width: 180.0;
 }
 
-#btn:hover,#btn2:hover {
+#btn:hover,#btnn:hover {
    -fx-background-color:#00b7ff;
     -fx-border-style: dotted;
     -fx-border-color: #fff;
@@ -35,7 +35,7 @@
     -fx-pref-width:250.0;
     -fx-translate-x: -30;
 }
-#btn2{
+#btnn{
         -fx-background-color: #ff00b3;
 /*    -fx-border-style: solid;
     -fx-border-size:5;

@@ -57,7 +57,7 @@ public class OfOnChoiceController implements Initializable {
     @FXML
     void goOfflineGame(ActionEvent event) {
         try {
-            Pane main = FXMLLoader.load(getClass().getResource("TwoPlayerFXML.fxml"));
+            Pane main = FXMLLoader.load(getClass().getResource("playersOff.fxml"));
             onOfPane.getChildren().setAll(main);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -66,7 +66,12 @@ public class OfOnChoiceController implements Initializable {
 
     @FXML
     void goOnlineChoice(ActionEvent event) {
-
+        try {
+            Pane main = FXMLLoader.load(getClass().getResource("TwoPlayerFXML.fxml"));
+            onOfPane.getChildren().setAll(main);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
 }
