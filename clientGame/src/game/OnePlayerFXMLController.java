@@ -35,6 +35,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -158,7 +159,13 @@ public class OnePlayerFXMLController implements Initializable {
         eighthWinPossibility.add(3);
         eighthWinPossibility.add(5);
         eighthWinPossibility.add(7);
-
+JFrame frame = new JFrame("Save your game");
+int answer=JOptionPane.showConfirmDialog(
+                            frame, "Would you like to save this game?",
+                            "Save your game?",
+                            JOptionPane.YES_NO_OPTION);
+if (answer == JOptionPane.YES_OPTION) {
+System.out.println("Deleted");}
 //        gameMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//backAudio.mp3").toURI().toString()));
 //        gameMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 //        gameMediaPlayer.play();

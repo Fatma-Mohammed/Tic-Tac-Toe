@@ -26,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -152,7 +153,13 @@ public class TwoPlayerFXMLController implements Initializable {
 
         for(int i=0 ; i<9 ; i++) btns[i].setDisable(false);                     //Activating grid buttons
         resetBtn.setDisable(true);                                              //Disable restart button until game ended
-        
+        JFrame frame = new JFrame("Save your game");
+int answer=JOptionPane.showConfirmDialog(
+                            frame, "Would you like to save this game?",
+                            "Save your game?",
+                            JOptionPane.YES_NO_OPTION);
+if (answer == JOptionPane.YES_OPTION) {
+System.out.println("Deleted");}
         firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
         secondPlayerName.setText(JOptionPane.showInputDialog("Second Player", "Enter Your Name"));
         
