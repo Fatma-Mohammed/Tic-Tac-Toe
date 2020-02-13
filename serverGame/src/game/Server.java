@@ -91,10 +91,13 @@ public class Server {
                     i = yourTurn();
                     if(i==99)
                     {
-                        System.out.println("client closed");
-                        close(); 
-                        mainPage();
+//                        close(); 
+                        Platform.runLater(()->mainPage());
                         break;
+                    }
+                    else if(i==55)
+                    {
+                        System.out.println("client closed");
                     }
                     else if(i==22)
                     {
@@ -171,7 +174,7 @@ public class Server {
                 catch(IOException e)
                 {
                     System.out.println("client closed!!");
-                    index=99;
+                    index=55;
                     close();
                 }
             }
@@ -238,6 +241,7 @@ public class Server {
                     output.close();
                     input.close();
                     c.close();
+                    server.close();
 		}
 		catch(Exception ex)
 		{
