@@ -43,42 +43,43 @@ public class TwoOffline {
             {
                 arr[i] = player;
                 Database_order[count] = i;
-                  whoWon();
-                  flag = true;
+                changPlayer();
+                count++;
+                flag = true;
             }
         }
         return flag;
     }
     
-    public void whoWon()
+    public char whoWon()
     {
-        if(winGame()!=0)
+        winGame();
+        if(win!=0)
         {
             System.out.println("Game ended "+win+" won");
-            //break;
         }
-        else if(win==0&& count==9)
+        else if(win==0 && count==9)
         {
             System.out.println("No one won");
+            win = 't';
         }
-        else
-        {
-            changPlayer();
-            count++;
-        }
+        return win;
     }
     
-    public char winGame()
+    public void winGame()
     {
-        if(arr[0]==arr[1] && arr[0]==arr[2]) win = arr[0];          //horizontal
-        else if (arr[3]==arr[4] && arr[3]==arr[5]) win = arr[3];
-        else if (arr[6]==arr[7] && arr[6]==arr[8]) win = arr[6];
-        else if (arr[0]==arr[4] && arr[0]==arr[8]) win = arr[0];    //diagonal
-        else if (arr[2]==arr[4] && arr[2]==arr[6]) win = arr[2];
-        else if (arr[0]==arr[3] && arr[0]==arr[6]) win = arr[0];    //vertical
-        else if (arr[1]==arr[4] && arr[1]==arr[7]) win = arr[1];
-        else if (arr[2]==arr[5] && arr[2]==arr[8]) win = arr[2];
-        return win;
+        /***********************check horizontal*******************************/
+        if(arr[0]==arr[1] && arr[0]==arr[2] && arr[0]!=0) win = arr[0];         
+        else if (arr[3]==arr[4] && arr[3]==arr[5] && arr[3]!=0) win = arr[3];   
+        else if (arr[6]==arr[7] && arr[6]==arr[8] && arr[6]!=0) win = arr[6];   
+        /************************check diagonal********************************/
+        else if (arr[0]==arr[4] && arr[0]==arr[8] && arr[0]!=0) win = arr[0];   
+        else if (arr[2]==arr[4] && arr[2]==arr[6] && arr[2]!=0) win = arr[2];
+        /***********************check vertical*******************************/
+        else if (arr[0]==arr[3] && arr[0]==arr[6] && arr[0]!=0) win = arr[0];    
+        else if (arr[1]==arr[4] && arr[1]==arr[7] && arr[1]!=0) win = arr[1];
+        else if (arr[2]==arr[5] && arr[2]==arr[8] && arr[2]!=0) win = arr[2];
+        
     }
     void changPlayer()
     {
