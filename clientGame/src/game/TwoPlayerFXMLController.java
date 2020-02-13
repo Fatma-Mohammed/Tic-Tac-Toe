@@ -13,10 +13,6 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -39,25 +35,9 @@ import javax.swing.JOptionPane;
  */
 public class TwoPlayerFXMLController implements Initializable {
 
-    // media 
-    //private MediaPlayer gameMediaPlayer, failMediaPlayer;
-    private boolean isFirst = true;
-    private static int loc;
-    private Boolean place1 = true, place2 = true, place3 = true,
-            place4 = true, place5 = true, place6 = true,
-            place7 = true, place8 = true, place9 = true, stopPress=true;
-    private ArrayList<Integer> firstPlayerTockens, secondPlayerTockens,gameTockens;
-    // Every possibilities of winning
-    private ArrayList<Integer> firstWinPossibility, secondWinPossibility,
-            thirdWinPossibility, forthWinPossibility, fifthWinPossibility,
-            sixthWinPossibility, seventhWinPossibility, eighthWinPossibility;
+    private Boolean stopPress=true;
     private int player1Score, player2Score, tieScore;
     private VideoCapture videoCapture;
-    private static int  gameOrder = 0;
-
-    // Stores if someone won or tied
-    private Boolean win = false, tie = false;
-    private int movement = 1;
 
     @FXML
     private AnchorPane towPlayerPane;
@@ -86,483 +66,232 @@ public class TwoPlayerFXMLController implements Initializable {
 
     @FXML
     private MediaView mediaView;
-
-    @FXML
-    private Label firstPlayerScore;
     @FXML
     private Label firstPlayerName;
     @FXML
     private Label secondPlayerName;
-    @FXML
-    private Label secondPlayerScore;
 
     MediaPlayer player;
     @FXML
     private Button recordBtn;
     @FXML
     private Button stopBtn1;
+    
+    Button [] btns;
+    
+    TwoOffline twooffline;
+    Client2 client;
 
-    /**
-     * Initializes the controller class.
-     */
+    
+    /***********************Extending Client class*****************************/
+            /*to overide some functions used to display actions in gui*/
+    class Client2 extends Client
+    {
+        
+                /****************Display Move********************/
+        void useLogicX(int i)
+        {
+            btns[i].setText("X");
+        }
+        
+        void useLogicO(int i)
+        {
+            btns[i].setText("O");
+        }
+        
+                /************Display the winning player*************/
+        void displayWinner(char w)
+        {
+            if(w=='x')
+            {
+                player1Score++;
+                JOptionPane.showMessageDialog(null, "Player1 " + " wins");
+            }
+            if(w=='o')
+            {
+                player2Score++;
+                JOptionPane.showMessageDialog(null, "Player2 " + " wins");
+            }
+            if(w=='t')
+            {
+                tieScore++;
+                JOptionPane.showMessageDialog(null, "No One" + " wins");
+            }
+            for(int i=0 ; i<9 ; i++)                                            //Disable grid buttons when game ends
+            {
+                btns[i].setDisable(true);
+                System.out.println("==>"+getOrder(i));
+            }
+            System.out.println("Player1  Player2  tie");                        //Displaying Scores of Each player
+            System.out.println(player1Score+"       "+player2Score+"        "+tieScore);
+            resetBtn.setDisable(false);
+        }
+        
+        void startAgain()
+        {
+            restart(22);
+        }
+        
+    }
+    /*******************Initializing the controller class**********************/
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-
+    public void initialize(URL url, ResourceBundle rb) 
+    {
         firstPlayerName.setText("You");
         secondPlayerName.setText("Friend");
+        btns = new Button[9];
+        btns[0]=btn1;
+        btns[1]=btn2;
+        btns[2]=btn3;
+        btns[3]=btn4;
+        btns[4]=btn5;
+        btns[5]=btn6;
+        btns[6]=btn7;
+        btns[7]=btn8;
+        btns[8]=btn9;
 
-        firstPlayerTockens = new ArrayList<Integer>();
-        secondPlayerTockens = new ArrayList<Integer>();
-        gameTockens = new ArrayList<Integer>();
-        // Defines every possibilities of winning
-        firstWinPossibility = new ArrayList<Integer>();
-        secondWinPossibility = new ArrayList<Integer>();
-        thirdWinPossibility = new ArrayList<Integer>();
-        forthWinPossibility = new ArrayList<Integer>();
-        fifthWinPossibility = new ArrayList<Integer>();
-        sixthWinPossibility = new ArrayList<Integer>();
-        seventhWinPossibility = new ArrayList<Integer>();
-        eighthWinPossibility = new ArrayList<Integer>();
-
-        firstWinPossibility.add(1);
-        firstWinPossibility.add(2);
-        firstWinPossibility.add(3);
-        secondWinPossibility.add(4);
-        secondWinPossibility.add(5);
-        secondWinPossibility.add(6);
-        thirdWinPossibility.add(7);
-        thirdWinPossibility.add(8);
-        thirdWinPossibility.add(9);
-        forthWinPossibility.add(1);
-        forthWinPossibility.add(4);
-        forthWinPossibility.add(7);
-        fifthWinPossibility.add(2);
-        fifthWinPossibility.add(5);
-        fifthWinPossibility.add(8);
-        sixthWinPossibility.add(3);
-        sixthWinPossibility.add(6);
-        sixthWinPossibility.add(9);
-        seventhWinPossibility.add(1);
-        seventhWinPossibility.add(5);
-        seventhWinPossibility.add(9);
-        eighthWinPossibility.add(3);
-        eighthWinPossibility.add(5);
-        eighthWinPossibility.add(7);
-
-//        gameMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//backAudio.mp3").toURI().toString()));
-//        gameMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-//        gameMediaPlayer.play();
-//        failMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//fail.mp3").toURI().toString()));
-//        failMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        //player = new MediaPlayer(new Media(new File("src//game//music//vedio.mp4").toURI().toString()));//Media(getClass().getResource("src//game//music//video.mp4").toExternalForm()));
+        for(int i=0 ; i<9 ; i++) btns[i].setDisable(false);                     //Activating grid buttons
+        resetBtn.setDisable(true);                                              //Disable restart button until game ended
+        
         firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
         secondPlayerName.setText(JOptionPane.showInputDialog("Second Player", "Enter Your Name"));
-        gameOrder++;
-        System.out.println("The game order is initialize "+gameOrder);
         
-        System.out.println(firstPlayerName.getText());
-        System.out.println(secondPlayerName.getText());
-        System.out.println("**********************************");
-        addInDB();
+        client = new Client2();                                                 //initializing a client 
+        System.out.println("connection started client");
     }
 
-    /**
-     * When click on first cell
-     *
-     * @param event
-     */
-    private void printGames(ArrayList<Integer> list)
-    {
-        for (int item : list)       
-        {
-            System.out.println(item);
-        }
-    }
-    private void makeGameOrders(ArrayList<Integer> first,ArrayList<Integer> second)
-    {
-        boolean flag = false;
-        while(! flag)
-        {
-//            if(first.ne)
-        }
     
-    }
-    private boolean addGames(int num)
+    /************************click on first cell*******************************/
+    @FXML
+    private void cell00Click(ActionEvent event) 
     {
-        try
-        {
-            String url = "jdbc:mysql://localhost:3306/southwind";
-            String user = "non";
-            String password = "Java123$";
-            
-            Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement stmt =con.prepareStatement("insert into games (num,gameorder) values (?,?)");
-            stmt.setInt(1, num);
-            stmt.setInt(2,gameOrder);
-            
-            
-            int rs = stmt.executeUpdate();
-            con.close();
-            
-        }
-        catch(SQLException ex)
-        {
-                ex.printStackTrace();
-                return false;
-        }
-        return true;
+        System.out.println("block 0");
+        client.myTurn(0);
     }
-      private void addInDB()
+
+    /************************click on second cell******************************/
+    @FXML
+    private void cell01Click(ActionEvent event) 
     {
-        try
-        {
-             String url = "jdbc:mysql://localhost:3306/southwind";
-            String user = "non";
-            String password = "Java123$";
-            
-            Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement stmt =con.prepareStatement("insert into names (gameorder,fplayer,splayer) values (?,?,?)");
-            stmt.setInt(1,gameOrder);
-            stmt.setString(2,firstPlayerName.getText());
-            stmt.setString(3,secondPlayerName.getText());
-            
-            
-            
-            int rs = stmt.executeUpdate();
-            con.close();
-            
-        }
-        catch(SQLException ex)
-        {
-                ex.printStackTrace();
-                
-        }
-      
+        System.out.println("block 1");
+        client.myTurn(1);
     }
 
+    /************************click on third cell*******************************/
     @FXML
-    private void cell00Click(ActionEvent event) {
-        if (place1 && !win && !tie) {
-            place1 = false;
-            loc = 1;
-            movement++;
-            if (isFirst) {
-                btn1.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-            } else {
-                btn1.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-        }
+    private void cell03Click(ActionEvent event) 
+    {
+        System.out.println("block 2");
+        client.myTurn(2);
     }
 
-    /**
-     * When click on second cell
-     *
-     * @param event
-     */
+    /************************click on forth cell*******************************/
     @FXML
-    private void cell01Click(ActionEvent event) {
-        if (place2 && !win && !tie) {
-            loc = 2;
-            place2 = false;
-            movement++;
-
-            if (isFirst) {
-                btn2.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            } else {
-                btn2.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-
-        }
+    private void cell10Click(ActionEvent event) 
+    {
+        System.out.println("block 3");
+        client.myTurn(3);
+       
     }
 
-    /**
-     * When click on third cell
-     *
-     * @param event
-     */
+    /************************click on fifth cell*******************************/
     @FXML
-    private void cell03Click(ActionEvent event) {
-        if (place3 && !win && !tie) {
-            loc = 3;
-            place3 = false;
-            movement++;
-
-            if (isFirst) {
-                btn3.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            } else {
-                btn3.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-
-        }
+    private void cell11Click(ActionEvent event) 
+    {
+        System.out.println("block 4");
+        client.myTurn(4);
     }
 
-    /**
-     * When click on forth cell
-     *
-     * @param event
-     */
+    /************************click on sixth cell*******************************/
     @FXML
-    private void cell10Click(ActionEvent event) {
-        if (place4 && !win && !tie) {
-            loc = 4;
-            place4 = false;
-            movement++;
-
-            if (isFirst) {
-                btn4.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            } else {
-                btn4.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-        }
+    private void cell12Click(ActionEvent event) 
+    {
+        System.out.println("block 5");
+        client.myTurn(5);
     }
 
-    /**
-     * When click on fifth cell
-     *
-     * @param event
-     */
+    /************************click on seventh cell*****************************/
     @FXML
-    private void cell11Click(ActionEvent event) {
-        if (place5 && !win && !tie) {
-            loc = 5;
-            place5 = false;
-            movement++;
-
-            if (isFirst) {
-                btn5.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            } else {
-                btn5.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-
-        }
-
+    private void cell20Click(ActionEvent event) 
+    {
+        System.out.println("block 6");
+        client.myTurn(6);
     }
 
-    /**
-     * When click on sixth cell
-     *
-     * @param event
-     */
+    /************************click on eighth cell******************************/
     @FXML
-    private void cell12Click(ActionEvent event) {
-        if (place6 && !win && !tie) {
-            loc = 6;
-            place6 = false;
-            movement++;
-
-            if (isFirst) {
-                btn6.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            } else {
-                btn6.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-        }
-
+    private void cell21Click(ActionEvent event) 
+    {
+        System.out.println("block 7");
+        client.myTurn(7);
     }
 
-    /**
-     * When click on seventh cell
-     *
-     * @param event
-     */
+    /*************************click on ninth cell******************************/
     @FXML
-    private void cell20Click(ActionEvent event) {
-        if (place7 && !win && !tie) {
-            place7 = false;
-            movement++;
-
-            loc = 7;
-            if (isFirst) {
-                btn7.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            } else {
-                btn7.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-        }
-
+    private void cell22Click(ActionEvent event) 
+    {
+        System.out.println("block 8");
+        client.myTurn(8);
     }
 
-    /**
-     * When click on eighth cell
-     *
-     * @param event
-     */
-    @FXML
-    private void cell21Click(ActionEvent event) {
-        if (place8 && !win && !tie) {
-            place8 = false;
-            movement++;
-
-            loc = 8;
-            if (isFirst) {
-                btn8.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            } else {
-                btn8.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-        }
-    }
-
-    /**
-     * When click on ninth cell
-     *
-     * @param event
-     */
-    @FXML
-    private void cell22Click(ActionEvent event) {
-        if (place9 && !win && !tie) {
-            place9 = false;
-            movement++;
-            loc = 9;
-            if (isFirst) {
-                btn9.setText(drawX());
-                firstPlayerTockens.add(loc);
-                gameTockens.add(loc);
-            } else {
-                btn9.setText(draw0());
-                secondPlayerTockens.add(loc);
-                gameTockens.add(loc);
-            }
-            addGames(loc);
-            if (movement >= 5) {
-                checkWinning();
-            }
-            if (movement >= 9) {
-                checkTie();
-            }
-        }
-
-    }
-
-    /**
-     * to back to main page
-     *
-     * @param event
-     */
+    /*************************back to main page********************************/
     @FXML
     private void onBack(ActionEvent event) {
-//        gameMediaPlayer.stop();
-//        failMediaPlayer.stop();
-        try {
+        try 
+        {
+            client.close();                                                     //close the connection
             Pane main = FXMLLoader.load(getClass().getResource("MainXML.fxml"));
             towPlayerPane.getChildren().setAll(main);
-
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) 
+        {
             ex.printStackTrace();
         }
     }
 
-    /**
-     * to start new game
-     *
-     * @param event
-     */
+    /*******************************start new game*****************************/
     @FXML
-    private void onReset(ActionEvent event) {
-        restart();
+    private void onReset(ActionEvent event) 
+    {
+        restart(1);
     }
-        @FXML
-    private void recordClick(ActionEvent event) throws IOException {
 
+    /*******************************stop recording*****************************/
+    @FXML
+    private void stopClick(ActionEvent event) 
+    {
+        if(!stopPress)
+        {
+            videoCapture.stop();
+            stopPress = true;
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Please start recording");
+        }
+    }
+    
+    /**************************restart the game method*************************/
+    public void restart(int num) 
+    {
+        for(int i=0 ; i<9 ; i++)
+        {
+            btns[i].setText("");
+        }
+        
+        for(int i=0 ; i<9 ; i++) btns[i].setDisable(false);
+        resetBtn.setDisable(true);
+        if(num==1) 
+        {
+            client.clear();
+            client.turn=0;
+            client.myTurn(22);
+        }
+    }
+    
+    
+     @FXML
+    private void recordClick(ActionEvent event) throws IOException 
+    {
         stopPress = false;
         videoCapture = VideoCapture.create();
         videoCapture.setVideoSource(new Desktop());
@@ -576,210 +305,6 @@ public class TwoPlayerFXMLController implements Initializable {
         encodingParameters.setCodec(videoCodec);
         videoCapture.setEncodingParameters(encodingParameters);
         videoCapture.start();
-}
-    /**
-     * to stop recording 
-     * @param event
-     *
-     */
-
-    @FXML
-    private void stopClick(ActionEvent event) {
-        if(!stopPress)
-        {
-            videoCapture.stop();
-            stopPress = true;
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Please start recording");
-        }
-    }
-
-    /**
-     * to check the tie
-     *
-     */
-    public void checkTie() {
-        if (win != true && tie == false) {
-            tie = true;
-//            gameMediaPlayer.stop();
-//            failMediaPlayer.play();
-
-            String st = "Tie";
-            JOptionPane.showMessageDialog(null, st);
-            tieScore = tieScore + 1;
-        }
-    }
-
-    /**
-     * to draw x and change the turn of player
-     *
-     * @return first player symbol
-     *
-     */
-    public String drawX() {
-        isFirst = false;
-        return "X";
-    }
-
-    /**
-     * to draw o and change the turn of player
-     *
-     * @return second player symbol
-     */
-    public String draw0() {
-        isFirst = true;
-        return "O";
-    }
-
-    /**
-     * to check the winning
-     *
-     */
-    public void checkWinning() {
-        // Checks if someone wins
-        if (firstPlayerTockens.containsAll(firstWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, firstPlayerName.getText() + " wins");
-
-            player1Score = player1Score + 1;
-            printGames(gameTockens);
-            
-        } else if (secondPlayerTockens.containsAll(firstWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, secondPlayerName.getText() + " wins");
-            player2Score = player2Score + 1;
-            printGames(gameTockens);
-        } else if (firstPlayerTockens.containsAll(secondWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, firstPlayerName.getText() + " wins");
-
-            player1Score = player1Score + 1;
-            printGames(gameTockens);
-        } else if (secondPlayerTockens.containsAll(secondWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, secondPlayerName.getText() + " wins");
-
-            player2Score = player2Score + 1;
-            printGames(gameTockens);
-        } else if (firstPlayerTockens.containsAll(thirdWinPossibility)) {
-            win = true;
-            // winText.setText("win");
-            player1Score = player1Score + 1;
-            printGames(gameTockens);
-        } else if (secondPlayerTockens.containsAll(thirdWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, secondPlayerName.getText() + " wins");
-
-            player2Score = player2Score + 1;
-            printGames(gameTockens);
-        } else if (firstPlayerTockens.containsAll(forthWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, firstPlayerName.getText() + " wins");
-
-            player1Score = player1Score + 1;
-            printGames(gameTockens);
-        } else if (secondPlayerTockens.containsAll(forthWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, secondPlayerName.getText() + " wins");
-
-            player2Score = player2Score + 1;
-            printGames(gameTockens);
-        } else if (firstPlayerTockens.containsAll(fifthWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, firstPlayerName.getText() + " wins");
-
-            player1Score = player1Score + 1;
-            printGames(gameTockens);
-        } else if (secondPlayerTockens.containsAll(fifthWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, secondPlayerName + " wins");
-
-            player2Score = player2Score + 1;
-            printGames(gameTockens);
-        } else if (firstPlayerTockens.containsAll(sixthWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, firstPlayerName.getText() + " wins");
-
-            player1Score = player1Score + 1;
-            printGames(gameTockens);
-        } else if (secondPlayerTockens.containsAll(sixthWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, firstPlayerName.getText() + " wins");
-
-            player2Score = player2Score + 1;
-            printGames(gameTockens);
-        } else if (firstPlayerTockens.containsAll(seventhWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, firstPlayerName.getText() + " wins");
-
-            player1Score = player1Score + 1;
-            printGames(gameTockens);
-        } else if (secondPlayerTockens.containsAll(seventhWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, secondPlayerName.getText() + " wins");
-
-            player2Score = player2Score + 1;
-            printGames(gameTockens);
-        } else if (firstPlayerTockens.containsAll(eighthWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, firstPlayerName.getText() + " wins");
-            player1Score = player1Score + 1;
-            printGames(gameTockens);;
-        } else if (secondPlayerTockens.containsAll(eighthWinPossibility)) {
-            win = true;
-            JOptionPane.showMessageDialog(null, secondPlayerName.getText() + " wins");
-            player2Score = player2Score + 1;
-            printGames(gameTockens);
-        }
-
-        if (win) {
-            firstPlayerScore.setText("Score : " + String.valueOf(player1Score));
-            secondPlayerScore.setText("Score : " + String.valueOf(player2Score));
-            movement = 10;
-
-        }
-
-    }
-
-    /**
-     * to restart the game
-     *
-     */
-    public void restart() {
-//        failMediaPlayer.stop();
-//        gameMediaPlayer.play();
-        gameOrder++;
-//        System.out.println("The game order is "+gameOrder);
-//        System.out.println(firstPlayerName.getText());
-//        System.out.println(secondPlayerName.getText());
-//        System.out.println("**********************************");
-        addInDB();
-        btn1.setText("");
-        btn2.setText("");
-        btn3.setText("");
-        btn4.setText("");
-        btn5.setText("");
-        btn6.setText("");
-        btn7.setText("");
-        btn8.setText("");
-        btn9.setText("");
-
-        win = false;
-        tie = false;
-        firstPlayerTockens.clear();
-        secondPlayerTockens.clear();
-        place1 = true;
-        place2 = true;
-        place3 = true;
-        place4 = true;
-        place5 = true;
-        place6 = true;
-        place7 = true;
-        place8 = true;
-        place9 = true;
-        movement = 0;
-        loc = 0;
     }
 
 }

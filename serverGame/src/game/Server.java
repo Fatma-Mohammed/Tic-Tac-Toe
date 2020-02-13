@@ -21,10 +21,11 @@ public class Server {
 	String checkConnection="";
 	char[] XO={0};
 	int turn=0;
-        
-        
+        char winner=0;
+        boolean running = true;
         int win=0;
         int tie=0;
+        int game=0;
         
         void useLogicX(int i)
         {
@@ -40,38 +41,41 @@ public class Server {
 
 	Server()
 	{
-            while(!checkConnection.equals("player2"))
+            if(game==0)
             {
-                checkConnection="";
-		try
+                while(!checkConnection.equals("player2"))
                 {
-                    server = new ServerSocket(5665);
-                    c = server.accept();
-                    input = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    output = new PrintStream(c.getOutputStream()); 
-
-                    checkConnection = input.readLine();
-                    if(checkConnection.equals("player2"))
+                    checkConnection="";
+                    try
                     {
-                        output.println("player1");
+                        server = new ServerSocket(6665);
+                        c = server.accept();
+                        input = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                        output = new PrintStream(c.getOutputStream()); 
+
+                        checkConnection = input.readLine();
+                        if(checkConnection.equals("player2"))
+                        {
+                            output.println("player1");
+                        }
                     }
-		}
-		catch(IOException e)
-		{
-                    e.printStackTrace();
-		}
-            }
-            System.out.println("server is connected to: "+checkConnection);
-            
-            try
-            {
-                twooffline = new TwoOffline();
-                ReadMsg th = new ReadMsg();
-                th.start();
-            }
-            catch (IllegalThreadStateException e)
-            {
-                System.out.println("thread server exception");
+                    catch(IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println("server is connected to: "+checkConnection);
+
+                try
+                {
+                    twooffline = new TwoOffline();
+                    ReadMsg th = new ReadMsg();
+                    th.start();
+                }
+                catch (IllegalThreadStateException e)
+                {
+                    System.out.println("thread server exception");
+                }
             }
 
 	}
@@ -81,18 +85,32 @@ public class Server {
             public void run()
             {
                 int i=88;
-                while(true)
+                while(running)
                 {
+//                    if(winner!=0) break;
                     i = yourTurn();
                     if(i==99)
                     {
                         System.out.println("client closed");
                         close(); 
+                        mainPage();
                         break;
+                    }
+                    else if(i==22)
+                    {
+                        System.out.println("start again");
+                        Platform.runLater(()->startAgain());
+                        clear();
                     }
                     else if (i!=88)
                     {
-                        System.out.println("server Done ur_turn");
+                        winner();
+                        if(winner!=0) 
+                        {
+                            turn = 1;
+//                            break;
+                        }
+                        else turn=0;
                     }
                 }
             }
@@ -103,19 +121,22 @@ public class Server {
             if(turn==0)
             {
                 System.out.println("send");
-                if(twooffline.start(num))
+                if(num!=22)
                 {
-                    Platform.runLater(() -> useLogicX(num));
-                            System.out.println("server Done my_turn");
-                    if(twooffline.win!=0)
+                    if(twooffline.start(num))
                     {
-                        win=1;
+                        Platform.runLater(() -> useLogicX(num));
+                        output.println(num);
+                        winner();
+                        if(winner!=0)
+                        {
+                            turn =1;
+                        }
+                        else turn = 1;
                     }
-                    else
-                    {
-                        tie=1;
-                    }
-                    turn =1;
+                }
+                else
+                {
                     output.println(num);
                 }
             }
@@ -136,20 +157,13 @@ public class Server {
                     {
                         final int indexFinal = Integer.parseInt(readMsg);
                         index = indexFinal;
-                        System.out.println("server received=> "+ index);
-                        if(twooffline.start(index))
+                        if(index!=22)
                         {
-                            Platform.runLater(() ->useLogicO(indexFinal));
-                            if(twooffline.win!=0)
+                            if(twooffline.start(index))
                             {
-                                win=1;
+                                Platform.runLater(() ->useLogicO(indexFinal));
+                                System.out.println("");
                             }
-                            else
-                            {
-                                tie=1;
-                            }
-                            turn =0;
-                            System.out.println("");
                         }
                     }
                     else if(readMsg==null) index=99;
@@ -159,22 +173,71 @@ public class Server {
                     System.out.println("client closed!!");
                     index=99;
                     close();
-//                  e.printStackTrace();
-                    //System.exit(0);
                 }
             }
             return index;
 	}
 
+        
+        void winner()
+        {
+            winner = twooffline.whoWon();
+            if(winner=='x')
+            {
+                displayWinner('x');
+            }
+            else if(winner=='o')
+            {
+                displayWinner('o');
+            }
+            else if(winner=='t')
+            {
+                displayWinner('t');
+            }
+            
+        }
+        
+        void displayWinner(char w)
+        {
+            
+        }
+        
+        void startAgain()
+        {
+            
+        }
+        
+        void mainPage()
+        {
+            
+        }
+        
+        int getOrder(int i)
+        {
+            return twooffline.Database_order[i];
+        }
+        
+        void clear()
+        {
+            game++;
+            winner=0;
+            win=0;
+            tie=0;
+            running = true;
+            twooffline = new TwoOffline();
+            turn=0;
+            
+        }
+        
 	void close()
 	{
 
 		try
 		{
+                    running = false;
                     output.close();
                     input.close();
                     c.close();
-                    //System.exit(0);
 		}
 		catch(Exception ex)
 		{

@@ -18,11 +18,11 @@ import java.util.*;
 public class IpNetwork2 {
     
     
-    static int i=1;
-    //static List<InetAddress> addresses = new ArrayList<>();
+    static int i=68;
     static InetAddress addresses;
     static int count=0;
-
+    byte[] ip=null;
+    
     public InetAddress getNextAddress()
     {
             return addresses;
@@ -30,7 +30,7 @@ public class IpNetwork2 {
 
 
 	IpNetwork2() {
-	      byte[] ip=null;
+	      
 	    try {
 		ip = GetExternalIp();
 		System.out.println("myIp: "+InetAddress.getByAddress(ip).toString());
@@ -38,36 +38,6 @@ public class IpNetwork2 {
 		e.printStackTrace();
 	    }
 
-	    //for(int n=1;n<=254;n++) {
-	    //for(int i=1;i<=10;i++) 
-		{
-		final int j = i; 
-		i++; 
-		//final int m = n;  
-		//new Thread(new Runnable() {   // new thread for parallel execution
-		    //public void run() 
-			{
-		        try {
-		            ip[3] = (byte)j;
-		            //ip[2] = (byte)m;
-		            InetAddress address = InetAddress.getByAddress(ip);
-		            String output = address.toString().substring(1);
-				addresses=address;
-//		                System.out.println(address.isReachable(300) + " is time reachable "+ output);
-		            if (address.isReachable(300)) {
-				//addresses.add(address);
-				addresses=address;
-		                System.out.println(output + " is on the network");
-				
-		            } 
-		        } catch (Exception e) {
-		                System.out.println("problem");
-		            e.printStackTrace();
-		        }
-		    }
-		//}).start();     
-		}
-	    //}
 	}
 
 
@@ -93,11 +63,35 @@ public byte[] GetExternalIp()throws SocketException{
 	    	System.out.println(InetAddress.getByAddress(ip));
 		
 	    } catch (Exception ex) {
-		ex.printStackTrace();     // exit method, otherwise "ip might not have been initialized"
+		ex.printStackTrace();     
 	    }
 	}
 	return ip;
 
     }
 
+    boolean checkIp()
+    {
+        final int j = i; 
+        i++; 
+        try {
+            ip[3] = (byte)j;
+            InetAddress address = InetAddress.getByAddress(ip);
+            String output = address.toString().substring(1);
+                addresses=address;
+                System.out.println(address.isReachable(300) + " is time reachable "+ output);
+            if (address.isReachable(300)) {
+                addresses=address;
+                System.out.println(output + " is on the network");
+                return true;
+
+            } 
+        } catch (Exception e) {
+                System.out.println("problem");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
+    
