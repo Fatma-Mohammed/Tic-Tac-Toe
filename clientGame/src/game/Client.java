@@ -110,7 +110,8 @@ public class Client {
                     if(i==99)
                     {
                         System.out.println("server is down");
-                        close(); 
+//                        close(); 
+                        Platform.runLater(()->mainPage());
                         break;
                     }
                     else if(i==55)
@@ -247,6 +248,11 @@ public class Client {
             
         }
         
+        void mainPage()
+        {
+            
+        }
+        
 	void close()
 	{
 		try
@@ -255,6 +261,7 @@ public class Client {
                     ps.close();
                     dis.close();
                     mySocket.close();
+                    IpNetwork2.initIp();
 		}
 		catch(Exception ex)
 		{
