@@ -134,7 +134,12 @@ public class ReplaysController implements Initializable {
 
     @FXML
     void onBack(ActionEvent event) {
-
+        try {
+            Pane main = FXMLLoader.load(getClass().getResource("List.fxml"));
+            replayPane.getChildren().setAll(main);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
