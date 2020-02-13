@@ -70,7 +70,7 @@ public class MainXMLController implements Initializable {
     @FXML
     private void goToTowPlayerScene(ActionEvent event) {
         try {
-            Pane main = FXMLLoader.load(getClass().getResource("TwoPlayerFXML.fxml"));
+            Pane main = FXMLLoader.load(getClass().getResource("ofOnChoice.fxml"));
             AnchorPane.getChildren().setAll(main);
 
         } catch (IOException ex) {
