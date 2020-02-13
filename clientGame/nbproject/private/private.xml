@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/OnePlayerFXMLController.java</file>
+            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/TwoOffline.java</file>
             <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/MainXML.fxml</file>
-            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/Game.java</file>
+            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/TwoPlayerFXMLController.java</file>
+            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/OnlineGameFXMLController.java</file>
+            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/OnePlayerFXML.fxml</file>
             <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/list.css</file>
         </group>
     </open-files>
