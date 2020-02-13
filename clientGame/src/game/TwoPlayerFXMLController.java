@@ -13,6 +13,10 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -31,11 +35,16 @@ import javax.swing.JOptionPane;
 
 /*FXML Controller class*/
 public class TwoPlayerFXMLController implements Initializable {
-
+   
     private Boolean stopPress=true;
     private int player1Score, player2Score, tieScore;
+//<<<<<<< HEAD
 //    private VideoCapture videoCapture;
 
+//=======
+//    private VideoCapture videoCapture;
+    private static int  gameOrder = 0;
+//>>>>>>> d1377d82664b9b57fb994eff60c10cb26868c778
     @FXML
     private AnchorPane towPlayerPane;
     @FXML
@@ -78,8 +87,35 @@ public class TwoPlayerFXMLController implements Initializable {
     
     TwoOffline twooffline;
     Client2 client;
-
     
+     private void addInDB()
+    {
+        try
+        {
+             String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into names (gameorder,fplayer,splayer) values (?,?,?)");
+            stmt.setInt(1,gameOrder);
+            stmt.setString(2,firstPlayerName.getText());
+            stmt.setString(3,secondPlayerName.getText());
+            
+            
+            
+            int rs = stmt.executeUpdate();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                
+        }
+      
+    }
+
     /***********************Extending Client class*****************************/
             /*to overide some functions used to display actions in gui*/
     class Client2 extends Client
@@ -123,10 +159,18 @@ public class TwoPlayerFXMLController implements Initializable {
             System.out.println("Player1  Player2  tie");                        //Displaying Scores of Each player
             System.out.println(player1Score+"       "+player2Score+"        "+tieScore);
             resetBtn.setDisable(false);
+//            client.getOrder(1);
+            //the index of the played game 1 ,5 ,8 , 6 
+            
+            
+           
+            
+            
         }
         
         void startAgain()
         {
+            
             restart(22);
         }
         
@@ -143,6 +187,7 @@ public class TwoPlayerFXMLController implements Initializable {
     {
         firstPlayerName.setText("You");
         secondPlayerName.setText("Friend");
+        gameOrder++;
         btns = new Button[9];
         btns[0]=btn1;
         btns[1]=btn2;
@@ -156,6 +201,10 @@ public class TwoPlayerFXMLController implements Initializable {
 
         for(int i=0 ; i<9 ; i++) btns[i].setDisable(false);                     //Activating grid buttons
         resetBtn.setDisable(true);                                              //Disable restart button until game ended
+        
+        
+        client = new Client2();                                                 //initializing a client 
+        System.out.println("connection started client");
         JFrame frame = new JFrame("Save your game");
 int answer=JOptionPane.showConfirmDialog(
                             frame, "Would you like to save this game?",
@@ -165,9 +214,6 @@ if (answer == JOptionPane.YES_OPTION) {
 System.out.println("Deleted");}
         firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
         secondPlayerName.setText(JOptionPane.showInputDialog("Second Player", "Enter Your Name"));
-        
-        client = new Client2();                                                 //initializing a client 
-        System.out.println("connection started client");
     }
 
     
@@ -287,6 +333,7 @@ System.out.println("Deleted");}
     /**************************restart the game method*************************/
     public void restart(int num) 
     {
+        gameOrder++;
         for(int i=0 ; i<9 ; i++)
         {
             btns[i].setText("");

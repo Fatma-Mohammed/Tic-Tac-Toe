@@ -12,9 +12,11 @@
             <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/CreatEnterGameController.java</file>
             <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/creatEnterGame.fxml</file>
             <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/TwoOffline.java</file>
-            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/TwoPlayerFXMLController.java</file>
+            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/List.fxml</file>
             <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/Game.java</file>
+            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/TwoPlayerFXMLController.java</file>
             <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/OnePlayerFXML.fxml</file>
+            <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/DifficultyFXML.fxml</file>
             <file>file:/D:/ITI/lectures/java/project/projectV2/clientGame/src/game/LoginFXMLController.java</file>
         </group>
     </open-files>

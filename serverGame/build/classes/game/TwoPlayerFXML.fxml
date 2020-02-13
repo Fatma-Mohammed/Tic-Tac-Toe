@@ -10,11 +10,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
-
 <AnchorPane fx:id="towPlayerPane" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.TwoPlayerFXMLController">
     <children>
       <MediaView fx:id="mediaView" fitHeight="650.0" fitWidth="650.0" preserveRatio="false" />
-        <ImageView fitHeight="764.0" fitWidth="821.0" layoutX="-50.0" pickOnBounds="true">
+        <ImageView id="pg" fitHeight="412.0" fitWidth="607.0">
             <image>
                 <Image url="@img/bg.jpg" />
             </image>

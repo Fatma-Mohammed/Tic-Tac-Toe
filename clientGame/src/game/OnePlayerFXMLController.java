@@ -159,19 +159,24 @@ public class OnePlayerFXMLController implements Initializable {
         eighthWinPossibility.add(3);
         eighthWinPossibility.add(5);
         eighthWinPossibility.add(7);
-JFrame frame = new JFrame("Save your game");
+
+//        gameMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//backAudio.mp3").toURI().toString()));
+//        gameMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+//        gameMediaPlayer.play();
+//        failMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//fail.mp3").toURI().toString()));
+//        failMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        JFrame frame = new JFrame("Save your game");
 int answer=JOptionPane.showConfirmDialog(
                             frame, "Would you like to save this game?",
                             "Save your game?",
                             JOptionPane.YES_NO_OPTION);
 if (answer == JOptionPane.YES_OPTION) {
 System.out.println("Deleted");}
-//        gameMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//backAudio.mp3").toURI().toString()));
-//        gameMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-//        gameMediaPlayer.play();
-//        failMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//fail.mp3").toURI().toString()));
-//        failMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
+
     }
+    
       private boolean addGames(int num)
     {
         try
@@ -441,53 +446,53 @@ System.out.println("Deleted");}
      *
      * @param event
      */
-    @FXML
-    private void recordClick(ActionEvent event) throws IOException {
-        stopPress = false;
-        videoCapture = VideoCapture.create();
-        videoCapture.setVideoSource(new Desktop());
-        java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
-        System.out.println(videoCodecs);
-        Codec videoCodec = videoCodecs.get(0);
-        EncodingParameters encodingParameters = new EncodingParameters(new File("Replays//ReplayOneVsComputer" + System.currentTimeMillis() + ".mp4"));
-        encodingParameters.setSize(new Dimension(1000, 600));
-        encodingParameters.setBitrate(800000);
-        encodingParameters.setFramerate(10);
-        encodingParameters.setCodec(videoCodec);
-        videoCapture.setEncodingParameters(encodingParameters);
-        videoCapture.start();
-    }
+//    @FXML
+//    private void recordClick(ActionEvent event) throws IOException {
+//        stopPress = false;
+//        videoCapture = VideoCapture.create();
+//        videoCapture.setVideoSource(new Desktop());
+//        java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
+//        System.out.println(videoCodecs);
+//        Codec videoCodec = videoCodecs.get(0);
+//        EncodingParameters encodingParameters = new EncodingParameters(new File("Replays//ReplayOneVsComputer" + System.currentTimeMillis() + ".mp4"));
+//        encodingParameters.setSize(new Dimension(1000, 600));
+//        encodingParameters.setBitrate(800000);
+//        encodingParameters.setFramerate(10);
+//        encodingParameters.setCodec(videoCodec);
+//        videoCapture.setEncodingParameters(encodingParameters);
+//        videoCapture.start();
+//    }
 
     /**
      * to stop record the game
      *
      * @param event
      */
-    @FXML
-    private void stopClick(ActionEvent event) {
-        if (!stopPress) {
-            videoCapture.stop();
-            String workingDir = System.getProperty("user.dir");
-            //show video
-           /* File f = new File(workingDir, "videoplayback.mp4");
-            Media m = new Media(f.toURI().toString());
-            MediaPlayer mp = new MediaPlayer(m);
-            MediaView mv = new MediaView(mp);
-            BorderPane borderPane = new BorderPane();
-            borderPane.getChildren().add(mv);
-            Scene scene = new Scene(borderPane, 600, 600);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.setTitle("You won!");
-            stage.show();
-            mp.play();
-            */
-            stopPress = true;
-        } else {
-            JOptionPane.showMessageDialog(null, "Please start recording");
-        }
-    }
+//    @FXML
+//    private void stopClick(ActionEvent event) {
+//        if (!stopPress) {
+//            videoCapture.stop();
+//            String workingDir = System.getProperty("user.dir");
+//            //show video
+//           /* File f = new File(workingDir, "videoplayback.mp4");
+//            Media m = new Media(f.toURI().toString());
+//            MediaPlayer mp = new MediaPlayer(m);
+//            MediaView mv = new MediaView(mp);
+//            BorderPane borderPane = new BorderPane();
+//            borderPane.getChildren().add(mv);
+//            Scene scene = new Scene(borderPane, 600, 600);
+//            Stage stage = new Stage();
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.setScene(scene);
+//            stage.setTitle("You won!");
+//            stage.show();
+//            mp.play();
+//            */
+//            stopPress = true;
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Please start recording");
+//        }
+//    }
 
     /**
      * to check the tie
@@ -739,8 +744,8 @@ System.out.println("Deleted");}
         }
 
         if (win) {
-            firstPlayerScore.setText("Score : " + String.valueOf(player1Score));
-            secondPlayerScore.setText("Score : " + String.valueOf(player2Score));
+            firstPlayerScore.setText(String.valueOf(player1Score));
+            secondPlayerScore.setText(String.valueOf(player2Score));
 
             movement = 10;
         }
@@ -775,7 +780,9 @@ System.out.println("Deleted");}
     public void restart() {
 //        failMediaPlayer.stop();
 //        gameMediaPlayer.play();
-
+          gameOrder++;
+      addInDB();
+    
         btn1.setText("");
         btn2.setText("");
         btn3.setText("");

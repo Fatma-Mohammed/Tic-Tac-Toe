@@ -13,10 +13,10 @@
             </extension>
         </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>FatmaClient</name>
+            <name>Client</name>
             <source-roots>
                 <root id="src.dir"/>
-                <root id="lib.dir"/>
+                <root id="Client2.dir"/>
             </source-roots>
             <test-roots/>
         </data>

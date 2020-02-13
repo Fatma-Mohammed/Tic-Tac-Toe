@@ -13,8 +13,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+
+
 
 /**
  * FXML Controller class
@@ -34,7 +38,8 @@ public class MainXMLController implements Initializable {
     private Pane AnchorPane;
     @FXML
     private Button replays;
-
+@FXML
+ private ImageView gif;
     /**
      * Initializes the controller class.
      */
@@ -67,7 +72,7 @@ public class MainXMLController implements Initializable {
     @FXML
     private void goToTowPlayerScene(ActionEvent event) {
         try {
-            Pane main = FXMLLoader.load(getClass().getResource("TwoPlayerFXML.fxml"));
+            Pane main = FXMLLoader.load(getClass().getResource("ofOnChoice.fxml"));
             AnchorPane.getChildren().setAll(main);
 
         } catch (IOException ex) {

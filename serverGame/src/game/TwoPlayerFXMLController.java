@@ -19,17 +19,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -161,6 +158,15 @@ public class TwoPlayerFXMLController implements Initializable {
         server = new Server2();
         System.out.println("connection started server");
         resetBtn.setDisable(true);
+        JFrame frame = new JFrame("Save your game");
+int answer=JOptionPane.showConfirmDialog(
+                            frame, "Would you like to save this game?",
+                            "Save your game?",
+                            JOptionPane.YES_NO_OPTION);
+if (answer == JOptionPane.YES_OPTION) {
+System.out.println("Deleted");}
+        firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
+        secondPlayerName.setText(JOptionPane.showInputDialog("Second Player", "Enter Your Name"));
     }
 
     //When click on first cell
@@ -268,8 +274,8 @@ public class TwoPlayerFXMLController implements Initializable {
         restart(1);
     }
         @FXML
-    private void recordClick(ActionEvent event) throws IOException {
-
+    private void recordClick(ActionEvent event) throws IOException 
+    {
         stopPress = false;
         videoCapture = VideoCapture.create();
         videoCapture.setVideoSource(new Desktop());
@@ -283,7 +289,7 @@ public class TwoPlayerFXMLController implements Initializable {
         encodingParameters.setCodec(videoCodec);
         videoCapture.setEncodingParameters(encodingParameters);
         videoCapture.start();
-}
+    }
     /**
      * to stop recording 
      * @param event
@@ -325,21 +331,21 @@ public class TwoPlayerFXMLController implements Initializable {
      * to play the video when win
      *
      */
-    public void playVedio() {
-        String workingDir = System.getProperty("user.dir");
-        File f = new File(workingDir, "src//game//music//videoplayback.wav");
-        Media m = new Media(f.toURI().toString());
-        MediaPlayer mp = new MediaPlayer(m);
-        MediaView mv = new MediaView(mp);
-        BorderPane borderPane = new BorderPane();
-        borderPane.getChildren().add(mv);
-        Scene scene = new Scene(borderPane, 600, 350);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.setTitle("You won!");
-        stage.show();
-        mp.play();
-    }
+//    public void playVedio() {
+//        String workingDir = System.getProperty("user.dir");
+//        File f = new File(workingDir, "src//game//music//videoplayback.wav");
+//        Media m = new Media(f.toURI().toString());
+//        MediaPlayer mp = new MediaPlayer(m);
+//        MediaView mv = new MediaView(mp);
+//        BorderPane borderPane = new BorderPane();
+//        borderPane.getChildren().add(mv);
+//        Scene scene = new Scene(borderPane, 600, 350);
+//        Stage stage = new Stage();
+//        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.setScene(scene);
+//        stage.setTitle("You won!");
+//        stage.show();
+//        mp.play();
+//    }
 
 }
