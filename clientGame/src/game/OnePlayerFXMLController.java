@@ -117,10 +117,10 @@ public class OnePlayerFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        firstPlayerName.setText("Player1");
+        //firstPlayerName.setText("Player1");
         secondPlayerName.setText("Computer");
         gameOrder++;
-        addInDB();
+        
 
         firstPlayerTockens = new ArrayList<Integer>();
         secondPlayerTockens = new ArrayList<Integer>();
@@ -174,6 +174,7 @@ int answer=JOptionPane.showConfirmDialog(
 if (answer == JOptionPane.YES_OPTION) {
 System.out.println("Deleted");}
         firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
+        addInDB();
 
     }
     
