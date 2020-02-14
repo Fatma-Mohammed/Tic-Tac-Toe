@@ -14,6 +14,10 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -48,7 +52,7 @@ public class OnePlayerFXMLController implements Initializable {
 
     private Boolean place1 = true, place2 = true, place3 = true, place4 = true, place5 = true, place6 = true,
             place7 = true, place8 = true, place9 = true, stopPress = true;
-    private ArrayList<Integer> firstPlayerTockens, secondPlayerTockens;
+    private ArrayList<Integer> firstPlayerTockens, secondPlayerTockens,gameTockens;
     // Every possibilities of winning
     private ArrayList<Integer> firstWinPossibility, secondWinPossibility,
             thirdWinPossibility, forthWinPossibility, fifthWinPossibility,
@@ -106,6 +110,7 @@ public class OnePlayerFXMLController implements Initializable {
     @FXML
     private Button stopBtn1;
     private static int  gameOrder = 0;
+    private boolean record  = false;
 
     /**
      * Initializes the controller class.
@@ -113,11 +118,14 @@ public class OnePlayerFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        firstPlayerName.setText("Player1");
-        secondPlayerName.setText("Player2");
+        //firstPlayerName.setText("Player1");
+        secondPlayerName.setText("Computer");
+        gameOrder++;
+        
 
         firstPlayerTockens = new ArrayList<Integer>();
         secondPlayerTockens = new ArrayList<Integer>();
+        gameTockens = new ArrayList<Integer>();
         // Defines every possibilities of winning
         firstWinPossibility = new ArrayList<Integer>();
         secondWinPossibility = new ArrayList<Integer>();
@@ -152,23 +160,83 @@ public class OnePlayerFXMLController implements Initializable {
         eighthWinPossibility.add(3);
         eighthWinPossibility.add(5);
         eighthWinPossibility.add(7);
-        JFrame frame = new JFrame("Save your game");
-int answer=JOptionPane.showConfirmDialog(
-                            frame, "Would you like to save this game?",
-                            "Save your game?",
-                            JOptionPane.YES_NO_OPTION);
-if (answer == JOptionPane.YES_OPTION) {
-System.out.println("Deleted");}
-        firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
-
 
 //        gameMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//backAudio.mp3").toURI().toString()));
 //        gameMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 //        gameMediaPlayer.play();
 //        failMediaPlayer = new MediaPlayer(new Media(new File("src//game//music//fail.mp3").toURI().toString()));
 //        failMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        JFrame frame = new JFrame("Save your game");
+//int answer=JOptionPane.showConfirmDialog(
+//                            frame, "Would you like to save this game?",
+//                            "Save your game?",
+//                            JOptionPane.YES_NO_OPTION);
+//if (answer == JOptionPane.YES_OPTION) {
+//record = true;
+//}
+        firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
+      
+           addInDB();
+       
+        
+
+    }
+    
+      private boolean addGames(int num)
+    {
+        try
+        {
+            String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into games (num,gameorder) values (?,?)");
+            stmt.setInt(1, num);
+            stmt.setInt(2,gameOrder);
+            
+            
+            int rs = stmt.executeUpdate();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                return false;
+        }
+        return true;
+    }
+      private void addInDB()
+    {
+        try
+        {
+             String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into names (gameorder,fplayer,splayer) values (?,?,?)");
+            stmt.setInt(1,gameOrder);
+            stmt.setString(2,firstPlayerName.getText());
+            stmt.setString(3,secondPlayerName.getText());
+            
+            
+            
+            int rs = stmt.executeUpdate();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                
+        }
+      
     }
 
+   
     /**
      * When click on first cell
      *
@@ -183,6 +251,9 @@ System.out.println("Deleted");}
             loc = 1;
             btn1.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+           
+            addGames(loc);
             computerTurn();
         }
     }
@@ -201,6 +272,9 @@ System.out.println("Deleted");}
             place2 = false;
             btn2.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            
+            addGames(loc);
             computerTurn();
         }
     }
@@ -219,6 +293,9 @@ System.out.println("Deleted");}
             place3 = false;
             btn3.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+         
+            addGames(loc);
             computerTurn();
         }
     }
@@ -237,6 +314,9 @@ System.out.println("Deleted");}
             place4 = false;
             btn4.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            
+            addGames(loc);
             computerTurn();
         }
     }
@@ -255,6 +335,9 @@ System.out.println("Deleted");}
             place5 = false;
             btn5.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+            
+            addGames(loc);
             computerTurn();
 
         }
@@ -274,6 +357,9 @@ System.out.println("Deleted");}
 
             btn6.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+           
+            addGames(loc);
             computerTurn();
         }
     }
@@ -292,6 +378,9 @@ System.out.println("Deleted");}
 
             btn7.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+           
+            addGames(loc);
             computerTurn();
         }
     }
@@ -310,6 +399,9 @@ System.out.println("Deleted");}
 
             btn8.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+          
+            addGames(loc);
             computerTurn();
         }
     }
@@ -328,6 +420,9 @@ System.out.println("Deleted");}
 
             btn9.setText(drawX());
             firstPlayerTockens.add(loc);
+            gameTockens.add(loc);
+          
+            addGames(loc);
             computerTurn();
         }
     }
@@ -366,53 +461,53 @@ System.out.println("Deleted");}
      *
      * @param event
      */
-    @FXML
-    private void recordClick(ActionEvent event) throws IOException {
-        stopPress = false;
-        videoCapture = VideoCapture.create();
-        videoCapture.setVideoSource(new Desktop());
-        java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
-        System.out.println(videoCodecs);
-        Codec videoCodec = videoCodecs.get(0);
-        EncodingParameters encodingParameters = new EncodingParameters(new File("Replays//ReplayOneVsComputer" + System.currentTimeMillis() + ".mp4"));
-        encodingParameters.setSize(new Dimension(1000, 600));
-        encodingParameters.setBitrate(800000);
-        encodingParameters.setFramerate(10);
-        encodingParameters.setCodec(videoCodec);
-        videoCapture.setEncodingParameters(encodingParameters);
-        videoCapture.start();
-    }
+//    @FXML
+//    private void recordClick(ActionEvent event) throws IOException {
+//        stopPress = false;
+//        videoCapture = VideoCapture.create();
+//        videoCapture.setVideoSource(new Desktop());
+//        java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
+//        System.out.println(videoCodecs);
+//        Codec videoCodec = videoCodecs.get(0);
+//        EncodingParameters encodingParameters = new EncodingParameters(new File("Replays//ReplayOneVsComputer" + System.currentTimeMillis() + ".mp4"));
+//        encodingParameters.setSize(new Dimension(1000, 600));
+//        encodingParameters.setBitrate(800000);
+//        encodingParameters.setFramerate(10);
+//        encodingParameters.setCodec(videoCodec);
+//        videoCapture.setEncodingParameters(encodingParameters);
+//        videoCapture.start();
+//    }
 
     /**
      * to stop record the game
      *
      * @param event
      */
-    @FXML
-    private void stopClick(ActionEvent event) {
-        if (!stopPress) {
-            videoCapture.stop();
-            String workingDir = System.getProperty("user.dir");
-            //show video
-           /* File f = new File(workingDir, "videoplayback.mp4");
-            Media m = new Media(f.toURI().toString());
-            MediaPlayer mp = new MediaPlayer(m);
-            MediaView mv = new MediaView(mp);
-            BorderPane borderPane = new BorderPane();
-            borderPane.getChildren().add(mv);
-            Scene scene = new Scene(borderPane, 600, 600);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.setTitle("You won!");
-            stage.show();
-            mp.play();
-            */
-            stopPress = true;
-        } else {
-            JOptionPane.showMessageDialog(null, "Please start recording");
-        }
-    }
+//    @FXML
+//    private void stopClick(ActionEvent event) {
+//        if (!stopPress) {
+//            videoCapture.stop();
+//            String workingDir = System.getProperty("user.dir");
+//            //show video
+//           /* File f = new File(workingDir, "videoplayback.mp4");
+//            Media m = new Media(f.toURI().toString());
+//            MediaPlayer mp = new MediaPlayer(m);
+//            MediaView mv = new MediaView(mp);
+//            BorderPane borderPane = new BorderPane();
+//            borderPane.getChildren().add(mv);
+//            Scene scene = new Scene(borderPane, 600, 600);
+//            Stage stage = new Stage();
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.setScene(scene);
+//            stage.setTitle("You won!");
+//            stage.show();
+//            mp.play();
+//            */
+//            stopPress = true;
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Please start recording");
+//        }
+//    }
 
     /**
      * to check the tie
@@ -464,6 +559,7 @@ System.out.println("Deleted");}
                 place1 = false;
                 movement++;
                 btn1.setText(draw0());
+                
             } else if (loc == 2) {
                 place2 = false;
                 movement++;
@@ -505,6 +601,7 @@ System.out.println("Deleted");}
 
                 btn9.setText(draw0());
             }
+            addGames(loc);
             secondPlayerTockens.add(loc);
 
             if (movement >= 5) {
@@ -662,8 +759,8 @@ System.out.println("Deleted");}
         }
 
         if (win) {
-            firstPlayerScore.setText("Score : " + String.valueOf(player1Score));
-            secondPlayerScore.setText("Score : " + String.valueOf(player2Score));
+            firstPlayerScore.setText(String.valueOf(player1Score));
+            secondPlayerScore.setText(String.valueOf(player2Score));
 
             movement = 10;
         }
@@ -698,7 +795,9 @@ System.out.println("Deleted");}
     public void restart() {
 //        failMediaPlayer.stop();
 //        gameMediaPlayer.play();
-
+          gameOrder++;
+      addInDB();
+    
         btn1.setText("");
         btn2.setText("");
         btn3.setText("");

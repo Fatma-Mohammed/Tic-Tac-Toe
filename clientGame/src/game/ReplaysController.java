@@ -118,9 +118,11 @@ public class ReplaysController implements Initializable {
     @FXML
     void cell00Click(ActionEvent event) {
         if (flag)
-            btn1.setText(drawX());
+            //btn1.setText(drawX());
+            System.out.println("X");
         else
-            btn1.setText(draw0());
+//            btn1.setText(draw0());
+            System.out.println("O");
         flag = !flag;
             
         //System.out.println("ONE");
