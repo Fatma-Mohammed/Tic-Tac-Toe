@@ -56,8 +56,8 @@ public class Client {
                     {
                         if(ip.checkIp())
                         {
-                        //mySocket = new Socket(InetAddress.getLocalHost(), 5005);
-                        mySocket = new Socket(ip.getNextAddress(), 6665);
+                        mySocket = new Socket(InetAddress.getLocalHost(), 5005);
+//                        mySocket = new Socket(ip.getNextAddress(), 6665);
 
                         mySocket.setSoTimeout(300);
                         dis = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));

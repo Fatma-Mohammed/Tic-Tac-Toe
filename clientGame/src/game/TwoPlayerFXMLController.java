@@ -78,10 +78,7 @@ public class TwoPlayerFXMLController implements Initializable {
     private Label secondPlayerName;
 
     MediaPlayer player;
-    @FXML
-    private Button recordBtn;
-    @FXML
-    private Button stopBtn1;
+ 
     
     Button [] btns;
     
@@ -301,7 +298,7 @@ System.out.println("Deleted");}
     {
         try {
             client.close();
-            Pane main = FXMLLoader.load(getClass().getResource("MainXML.fxml"));
+            Pane main = FXMLLoader.load(getClass().getResource("ofOnChoice.fxml"));
             towPlayerPane.getChildren().setAll(main);
 
         } catch (IOException ex) {

@@ -83,16 +83,16 @@ public class MainXMLController implements Initializable {
      * @param event
      */
 
-    @FXML
-    private void goToLogin(ActionEvent event) {
-
-        try {
-            Pane main = FXMLLoader.load(getClass().getResource("LoginFXML.fxml"));
-            AnchorPane.getChildren().setAll(main);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
+//    @FXML
+//    private void goToLogin(ActionEvent event) {
+//
+//        try {
+//            Pane main = FXMLLoader.load(getClass().getResource("LoginFXML.fxml"));
+//            AnchorPane.getChildren().setAll(main);
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
      /**
      * Redirect to saved vedios 

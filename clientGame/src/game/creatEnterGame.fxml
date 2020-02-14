@@ -43,7 +43,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
           </Button>
-         <Button id="btn2" fx:id="backBtn" layoutX="95.0" layoutY="255.0" mnemonicParsing="false" onAction="#goChoice" text="Back">
+         <Button id="btnn" fx:id="backBtn" layoutX="95.0" layoutY="255.0" mnemonicParsing="false"  prefHeight="76.0" prefWidth="357.0" stylesheets="@list.css" text="Back" textFill="#ff8920" onAction="#goChoice">
               <effect>
                   <DropShadow color="#800e5f" height="20.0" radius="9.5" spread="0.21" width="20.0" />
                </effect>
