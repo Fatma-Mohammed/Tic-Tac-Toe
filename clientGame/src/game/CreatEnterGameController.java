@@ -55,7 +55,7 @@ public class CreatEnterGameController implements Initializable {
     @FXML
     void goCreateGame(ActionEvent event) {
         try {
-            Pane main = FXMLLoader.load(getClass().getResource("TwoPlayerFXML.fxml"));
+            Pane main = FXMLLoader.load(getClass().getResource("serverTwoPlayer.fxml"));
             creatEnterPane.getChildren().setAll(main);
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -110,6 +110,7 @@ public class OnePlayerFXMLController implements Initializable {
     @FXML
     private Button stopBtn1;
     private static int  gameOrder = 0;
+//    private boolean record  = false;
 
     /**
      * Initializes the controller class.
@@ -117,10 +118,10 @@ public class OnePlayerFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        firstPlayerName.setText("Player1");
+        //firstPlayerName.setText("Player1");
         secondPlayerName.setText("Computer");
         gameOrder++;
-        addInDB();
+        
 
         firstPlayerTockens = new ArrayList<Integer>();
         secondPlayerTockens = new ArrayList<Integer>();
@@ -167,13 +168,18 @@ public class OnePlayerFXMLController implements Initializable {
 //        failMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         JFrame frame = new JFrame("Save your game");
-int answer=JOptionPane.showConfirmDialog(
-                            frame, "Would you like to save this game?",
-                            "Save your game?",
-                            JOptionPane.YES_NO_OPTION);
-if (answer == JOptionPane.YES_OPTION) {
-System.out.println("Deleted");}
+//int answer=JOptionPane.showConfirmDialog(
+//                            frame, "Would you like to save this game?",
+//                            "Save your game?",
+//                            JOptionPane.YES_NO_OPTION);
+//if (answer == JOptionPane.YES_OPTION) {
+//record = true;
+//}
         firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
+      
+           addInDB();
+       
+        
 
     }
     
@@ -246,6 +252,7 @@ System.out.println("Deleted");}
             btn1.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+           
             addGames(loc);
             computerTurn();
         }
@@ -266,6 +273,7 @@ System.out.println("Deleted");}
             btn2.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+            
             addGames(loc);
             computerTurn();
         }
@@ -286,6 +294,7 @@ System.out.println("Deleted");}
             btn3.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+         
             addGames(loc);
             computerTurn();
         }
@@ -306,6 +315,7 @@ System.out.println("Deleted");}
             btn4.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+            
             addGames(loc);
             computerTurn();
         }
@@ -326,6 +336,7 @@ System.out.println("Deleted");}
             btn5.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+            
             addGames(loc);
             computerTurn();
 
@@ -347,6 +358,7 @@ System.out.println("Deleted");}
             btn6.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+           
             addGames(loc);
             computerTurn();
         }
@@ -367,6 +379,7 @@ System.out.println("Deleted");}
             btn7.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+           
             addGames(loc);
             computerTurn();
         }
@@ -387,6 +400,7 @@ System.out.println("Deleted");}
             btn8.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+          
             addGames(loc);
             computerTurn();
         }
@@ -407,6 +421,7 @@ System.out.println("Deleted");}
             btn9.setText(drawX());
             firstPlayerTockens.add(loc);
             gameTockens.add(loc);
+          
             addGames(loc);
             computerTurn();
         }

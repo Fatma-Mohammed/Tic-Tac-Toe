@@ -78,10 +78,7 @@ public class TwoPlayerFXMLController implements Initializable {
     private Label secondPlayerName;
 
     MediaPlayer player;
-    @FXML
-    private Button recordBtn;
-    @FXML
-    private Button stopBtn1;
+ 
     
     Button [] btns;
     
@@ -208,12 +205,12 @@ public class TwoPlayerFXMLController implements Initializable {
         JFrame frame = new JFrame("Save your game");
 int answer=JOptionPane.showConfirmDialog(
                             frame, "Would you like to save this game?",
-                            "Save your game?",
+                            "Save your game ?",
                             JOptionPane.YES_NO_OPTION);
 if (answer == JOptionPane.YES_OPTION) {
 System.out.println("Deleted");}
-        firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
-        secondPlayerName.setText(JOptionPane.showInputDialog("Second Player", "Enter Your Name"));
+        firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name (offline)"));
+        secondPlayerName.setText(JOptionPane.showInputDialog("Second Player", "Enter Your Name (offline)"));
     }
 
     
@@ -301,7 +298,7 @@ System.out.println("Deleted");}
     {
         try {
             client.close();
-            Pane main = FXMLLoader.load(getClass().getResource("MainXML.fxml"));
+            Pane main = FXMLLoader.load(getClass().getResource("ofOnChoice.fxml"));
             towPlayerPane.getChildren().setAll(main);
 
         } catch (IOException ex) {
