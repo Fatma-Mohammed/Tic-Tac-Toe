@@ -662,8 +662,8 @@ System.out.println("Deleted");}
         }
 
         if (win) {
-            firstPlayerScore.setText("Score : " + String.valueOf(player1Score));
-            secondPlayerScore.setText("Score : " + String.valueOf(player2Score));
+            firstPlayerScore.setText(String.valueOf(player1Score));
+            secondPlayerScore.setText(String.valueOf(player2Score));
 
             movement = 10;
         }
