@@ -13,6 +13,10 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -75,6 +79,7 @@ public class playersOffController implements Initializable {
     private Button backBtn;
     @FXML
     private Button resetBtn;
+    private static int  gameOrder = 0;
 
 //    @FXML
 //    private MediaView mediaView;
@@ -89,18 +94,62 @@ public class playersOffController implements Initializable {
     private Label secondPlayerScore;
 
     MediaPlayer player;
-//    @FXML
-//    private Button recordBtn;
-//    @FXML
-//    private Button stopBtn1;
-
-
-    /**
-     * Initializes the controller class.
-     */
+ private boolean addGames(int num)
+    {
+        try
+        {
+            String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into games (num,gameorder) values (?,?)");
+            stmt.setInt(1, num);
+            stmt.setInt(2,gameOrder);
+            
+            
+            int rs = stmt.executeUpdate();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                return false;
+        }
+        return true;
+    }
+ private void addInDB()
+    {
+        try
+        {
+             String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into names (gameorder,fplayer,splayer) values (?,?,?)");
+            stmt.setInt(1,gameOrder);
+            stmt.setString(2,firstPlayerName.getText());
+            stmt.setString(3,secondPlayerName.getText());
+            
+            
+            
+            int rs = stmt.executeUpdate();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                
+        }
+      
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        gameOrder++;
         firstPlayerName.setText("You");
         secondPlayerName.setText("Friend");
 
@@ -141,17 +190,17 @@ public class playersOffController implements Initializable {
         eighthWinPossibility.add(5);
         eighthWinPossibility.add(7);
 
-//       
-        JFrame frame = new JFrame("Save your game");
-int answer=JOptionPane.showConfirmDialog(
-                            frame, "Would you like to save this game?",
-                            "Save your game?",
-                            JOptionPane.YES_NO_OPTION);
-if (answer == JOptionPane.YES_OPTION) {
-System.out.println("Deleted");}
+////       
+//        JFrame frame = new JFrame("Save your game");
+//int answer=JOptionPane.showConfirmDialog(
+//                            frame, "Would you like to save this game?",
+//                            "Save your game?",
+//                            JOptionPane.YES_NO_OPTION);
+//if (answer == JOptionPane.YES_OPTION) {
+//System.out.println("Deleted");}
         firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
         secondPlayerName.setText(JOptionPane.showInputDialog("Second Player", "Enter Your Name"));
-
+        addInDB();
     }
 
 @FXML
@@ -167,6 +216,7 @@ System.out.println("Deleted");}
                 btn1.setText(draw0());
                 secondPlayerTockens.add(loc);
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -196,6 +246,7 @@ System.out.println("Deleted");}
                 secondPlayerTockens.add(loc);
 
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -227,6 +278,7 @@ System.out.println("Deleted");}
                 secondPlayerTockens.add(loc);
 
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -258,6 +310,7 @@ System.out.println("Deleted");}
                 secondPlayerTockens.add(loc);
 
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -287,6 +340,7 @@ System.out.println("Deleted");}
                 btn5.setText(draw0());
                 secondPlayerTockens.add(loc);
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -319,6 +373,7 @@ System.out.println("Deleted");}
                 secondPlayerTockens.add(loc);
 
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -350,6 +405,7 @@ System.out.println("Deleted");}
                 secondPlayerTockens.add(loc);
 
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -381,6 +437,7 @@ System.out.println("Deleted");}
                 secondPlayerTockens.add(loc);
 
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -408,6 +465,7 @@ System.out.println("Deleted");}
                 btn9.setText(draw0());
                 secondPlayerTockens.add(loc);
             }
+            addGames(loc);
             if (movement >= 5) {
                 checkWinning();
             }
@@ -616,7 +674,7 @@ System.out.println("Deleted");}
     public void restart() {
 //        failMediaPlayer.stop();
 //        gameMediaPlayer.play();
-
+    gameOrder++;
         btn1.setText("");
         btn2.setText("");
         btn3.setText("");

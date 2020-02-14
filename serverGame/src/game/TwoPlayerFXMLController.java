@@ -165,7 +165,7 @@ int answer=JOptionPane.showConfirmDialog(
                             JOptionPane.YES_NO_OPTION);
 if (answer == JOptionPane.YES_OPTION) {
 System.out.println("Deleted");}
-        firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name"));
+        firstPlayerName.setText(JOptionPane.showInputDialog("First Player", "Enter Your Name(offline)"));
         secondPlayerName.setText(JOptionPane.showInputDialog("Second Player", "Enter Your Name"));
     }
 

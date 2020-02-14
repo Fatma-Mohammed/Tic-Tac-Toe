@@ -110,7 +110,7 @@ public class OnePlayerFXMLController implements Initializable {
     @FXML
     private Button stopBtn1;
     private static int  gameOrder = 0;
-    private boolean record  = false;
+//    private boolean record  = false;
 
     /**
      * Initializes the controller class.
